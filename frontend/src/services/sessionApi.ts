@@ -1,4 +1,4 @@
-const base = "http://localhost:4000";
+const base = "https://ai-visibility-tracker-9yz7.onrender.com";
 
 function authHeader() {
   return { Authorization: `Bearer ${localStorage.getItem("token")}` };
