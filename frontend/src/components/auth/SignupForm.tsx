@@ -14,7 +14,6 @@ export default function SignupForm() {
   const [loading, setLoading] = useState(false);
 
   async function handleSignup() {
-    // 🔍 Client-side validations
     if (!email.trim()) {
       return showError("Email is required", theme);
     }

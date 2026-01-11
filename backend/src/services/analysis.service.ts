@@ -44,7 +44,7 @@ export function analyzeAnswers(
       totalPrompts,
       visibilityScore: brandMentions,
 
-      // 🔥 NEW METRICS
+  
       brandInclusionRate:
         totalPrompts > 0
           ? Math.round((promptsWithAnyBrand / totalPrompts) * 100)
