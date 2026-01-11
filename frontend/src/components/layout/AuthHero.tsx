@@ -1,12 +1,18 @@
 import { useTheme } from "../../context/ThemeContext";
 import { themes } from "../../styles/themes";
+import type { ReactNode } from "react";
 
-export default function AuthHero() {
+export default function AuthHero({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const { theme } = useTheme();
 
   return (
-    <div className="absolute top-28 w-full flex justify-center">
-      <div className="text-center max-w-xl px-6">
+    <main className="min-h-screen flex flex-col items-center justify-center px-4">
+      {/* 🧠 Product Intro */}
+      <div className="text-center max-w-xl mb-8">
         <h1
           className={`text-3xl md:text-4xl font-bold tracking-tight ${themes[theme].headerText}`}
         >
@@ -20,6 +26,9 @@ export default function AuthHero() {
           Measure visibility, competitors, and prompt-level mentions.
         </p>
       </div>
-    </div>
+
+      {/* 🔐 Auth Content */}
+      {children}
+    </main>
   );
 }

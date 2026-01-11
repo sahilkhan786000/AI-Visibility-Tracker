@@ -8,10 +8,11 @@ export default function Signup() {
   const { theme } = useTheme();
 
   return (
-    <div className={`min-h-screen relative flex items-center justify-center ${themes[theme].bg}`}>
+      <div className={`min-h-screen ${themes[theme].bg}`}>
       <AuthHeader />
-      <AuthHero />
-      <SignupForm />
-    </div>
+        <AuthHero>
+          <SignupForm />
+        </AuthHero>
+        </div>
   );
 }
