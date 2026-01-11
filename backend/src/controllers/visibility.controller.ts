@@ -17,5 +17,10 @@ export async function checkVisibility(req: Request, res: Response) {
 
   const analysis = analyzeAnswers(prompts, answers, brands);
 
-  res.json(analysis);
+  // ✅ ADD THIS (session-friendly response)
+  res.json({
+    category,
+    brands,
+    ...analysis,
+  });
 }

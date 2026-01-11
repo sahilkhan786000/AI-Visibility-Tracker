@@ -1,27 +1,37 @@
-const API_BASE_URL = "http://localhost:4000/api";
+import type { VisibilityResponse } from "../types/visibility";
 
-export interface VisibilityRequest {
-  category: string;
-  brands: string[];
-}
+const API_BASE_URL = "http://localhost:4000";
 
 export async function checkVisibility(
-  payload: VisibilityRequest
-) {
-  const response = await fetch(
-    `${API_BASE_URL}/visibility/check`,
+  category: string,
+  brands: string[]
+): Promise<VisibilityResponse> {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `${API_BASE_URL}/api/visibility/check`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // 🔑 REQUIRED
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ category, brands }),
     }
   );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch visibility data");
+  const text = await res.text();
+
+  if (!text) {
+    throw new Error("Empty response from server");
   }
 
-  return response.json();
+  const data = JSON.parse(text);
+
+  if (!res.ok) {
+    // Pass backend message to UI
+    throw new Error(data.error || "Visibility check failed");
+  }
+
+  return data;
 }

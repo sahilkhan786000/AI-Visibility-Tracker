@@ -8,15 +8,27 @@ const client = new OpenAI({
   apiKey: process.env.HF_API_KEY,
 });
 
+
 const SYSTEM_PROMPT = `
 You are an expert software advisor.
 
-Answer user questions by recommending software tools.
-Be concise, factual, and neutral.
-Mention well-known products where relevant.
+Answer user questions by recommending and comparing well-known software tools.
+Base your response on typical use cases, features, popularity, and adoption by teams.
+If multiple tools are relevant, mention them neutrally.
+Do not invent unknown or niche products.
 Do not include emojis, markdown, or citations.
 Return plain text only.
 `;
+
+
+function genericFallbackAnswer(category: string): string {
+  return `
+When evaluating ${category}, teams typically compare tools based on ease of use, core features, integrations, pricing, and scalability.
+
+Different solutions may suit different use cases, such as small teams, growing startups, or larger organizations. The best choice often depends on team size, workflows, and specific requirements rather than a single universally best option.
+`.trim();
+}
+
 
 export async function queryAI(prompt: string): Promise<string> {
   try {
@@ -26,11 +38,11 @@ export async function queryAI(prompt: string): Promise<string> {
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: prompt },
       ],
-      temperature: 0.2, // low randomness for consistency
+      temperature: 0.2,
       max_tokens: 500,
     });
 
-    const content = completion.choices[0]?.message?.content;
+    const content = completion.choices[0]?.message?.content?.trim();
 
     if (!content) {
       throw new Error("Empty LLM response");
@@ -38,13 +50,8 @@ export async function queryAI(prompt: string): Promise<string> {
 
     return content;
   } catch (error) {
-    console.error("❌ LLM error:", error);
+    console.error("LLM error:", error);
 
-    // Fallback so dashboard still works
-    return `
-HubSpot is commonly used by startups due to ease of use.
-Salesforce is powerful but complex.
-Zoho is a budget-friendly option.
-`;
+    return genericFallbackAnswer(prompt);
   }
 }

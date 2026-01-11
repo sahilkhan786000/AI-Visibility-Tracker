@@ -1,34 +1,51 @@
 import { useTheme } from "../../context/ThemeContext";
 import { themes } from "../../styles/themes";
 
-const brands = [
-  { name: "HubSpot", visibility: 57 },
-  { name: "Salesforce", visibility: 42 },
-  { name: "Pipedrive", visibility: 31 },
-];
-
-export default function Leaderboard() {
+export default function Leaderboard({
+  items = [],
+}: {
+  items?: { brand: string; mentions: number }[];
+}) {
   const { theme } = useTheme();
+  const max = Math.max(...items.map((i) => i.mentions), 1);
 
   return (
     <div className={`p-6 rounded-xl ${themes[theme].card}`}>
       <h3 className={`font-semibold mb-4 ${themes[theme].text}`}>
-        Leaderboard
+        Visibility Leaderboard
       </h3>
 
-      <div className="space-y-3">
-        {brands.map((b, i) => (
-          <div
-            key={b.name}
-            className={`flex justify-between items-center ${themes[theme].text}`}
-          >
-            <span className="font-medium">
-              #{i + 1} {b.name}
-            </span>
-            <span className="opacity-80">{b.visibility}%</span>
-          </div>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className={`${themes[theme].text} opacity-60`}>
+          No data yet. Run analysis.
+        </p>
+      ) : (
+        <div className="space-y-4">
+          {items.map((b, i) => (
+            <div key={b.brand}>
+              <div
+                className={`flex justify-between text-sm mb-1 ${themes[theme].text}`}
+              >
+                <span>
+                  #{i + 1} {b.brand}
+                </span>
+                <span>{b.mentions}</span>
+              </div>
+
+              <div className="h-2 rounded bg-black/10 overflow-hidden">
+                <div
+                  className={`h-2 rounded ${
+                    theme === "space"
+                      ? "bg-indigo-400"
+                      : "bg-emerald-500"
+                  }`}
+                  style={{ width: `${(b.mentions / max) * 100}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
