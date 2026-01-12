@@ -11,7 +11,7 @@ export default function AuthHero({
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4">
-      {/* 🧠 Product Intro */}
+   
       <div className="text-center max-w-xl mb-8">
         <h1
           className={`text-3xl md:text-4xl font-bold tracking-tight ${themes[theme].headerText}`}
@@ -27,7 +27,7 @@ export default function AuthHero({
         </p>
       </div>
 
-      {/* 🔐 Auth Content */}
+
       {children}
     </main>
   );
