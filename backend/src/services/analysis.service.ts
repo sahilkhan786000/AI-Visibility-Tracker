@@ -1,4 +1,4 @@
-function mentionsBrand(answer: string, brand: string) {
+function _mentionsBrand(answer: string, brand: string) {
   const regex = new RegExp(`\\b${brand}\\b`, "i");
   return regex.test(answer);
 }

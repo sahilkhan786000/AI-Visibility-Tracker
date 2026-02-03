@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { verifyToken } from "../utils/auth";
 
 export function requireAuth(req: any, res: Response, next: NextFunction) {
