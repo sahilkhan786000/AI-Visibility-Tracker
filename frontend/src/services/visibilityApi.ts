@@ -1,6 +1,6 @@
 import type { VisibilityResponse } from "../types/visibility";
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://ai-visibility-tracker-9yz7.onrender.com";
 
 export async function checkVisibility(
   category: string,
