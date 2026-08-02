@@ -1,6 +1,6 @@
 import type { VisibilityResponse } from "../types/visibility";
 
-const API_BASE_URL = "https://ai-visibility-tracker-9yz7.onrender.com";
+const API_BASE_URL = " http://localhost:4000";
 
 export async function checkVisibility(
   category: string,
@@ -14,7 +14,7 @@ export async function checkVisibility(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // 🔑 REQUIRED
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ category, brands }),
     }
